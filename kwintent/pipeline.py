@@ -6,14 +6,20 @@ from .models import Business, IntentExpansion, IntentMap
 
 
 def run(llm: LLM, biz: Business, n_intents: int = 10, n_seo: int = 12,
-        n_geo: int = 8, workers: int = 4) -> dict:
+        n_geo: int = 8, workers: int = 4, progress=None) -> dict:
+    note = progress or (lambda msg, done, total: None)
+    note("Mapping searcher intents", 0, 1)
     imap = llm.parse(prompts.SYSTEM, prompts.intent_map_prompt(biz, n_intents), IntentMap)
     intents = imap.intents
+    done = [0]
 
     def expand(intent):
-        return llm.parse(prompts.SYSTEM,
-                         prompts.expansion_prompt(biz, intent, n_seo, n_geo),
-                         IntentExpansion)
+        out = llm.parse(prompts.SYSTEM,
+                        prompts.expansion_prompt(biz, intent, n_seo, n_geo),
+                        IntentExpansion)
+        done[0] += 1
+        note(f"Expanded: {intent.name}", done[0], len(intents))
+        return out
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         expansions = list(ex.map(expand, intents))

@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 DISCLAIMER = (
-    "> **All volume, difficulty and demand figures are Claude's estimates from general "
+    "> **All volume, difficulty and demand figures are the AI model's estimates from general "
     "knowledge. No search, SERP or AI-citation data was used. Treat them as coarse bands "
     "good for relative ranking, not forecasts. Validate the top picks against Google "
     "Search Console, a real SERP check, or by prompting AI assistants yourself.**\n")

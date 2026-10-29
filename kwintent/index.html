@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intent Keyword Research</title>
+<style>
+:root{
+  --bg:#f6f7f9;--panel:#fff;--ink:#14171f;--muted:#667085;--line:#e4e7ec;
+  --accent:#4f46e5;--accent-ink:#fff;--accent-soft:#eef0ff;
+  --good:#067647;--good-bg:#e7f6ee;--warn:#b54708;--warn-bg:#fdf1e3;--bad:#b42318;--bad-bg:#fdeceb;
+  --info-bg:#f1f3f9;--shadow:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.08);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0e1015;--panel:#161922;--ink:#eceef4;--muted:#98a2b3;--line:#262b38;
+  --accent:#8b86ff;--accent-ink:#0e1015;--accent-soft:#222444;
+  --good:#47cd89;--good-bg:#10281d;--warn:#fdb022;--warn-bg:#2e2210;--bad:#f97066;--bad-bg:#2f1715;
+  --info-bg:#1b1f2b;--shadow:none;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--panel);border-bottom:1px solid var(--line)}
+.logo{width:28px;height:28px;border-radius:8px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-weight:700}
+header h1{font-size:16px;margin:0;font-weight:650}
+header span{color:var(--muted);font-size:13px}
+.layout{display:grid;grid-template-columns:340px 1fr;gap:20px;padding:20px 24px;max-width:1500px;margin:0 auto}
+@media(max-width:900px){.layout{grid-template-columns:1fr;padding:16px}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+form.card{padding:18px;align-self:start;position:sticky;top:16px}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 5px;text-transform:uppercase;letter-spacing:.04em}
+label:first-of-type{margin-top:0}
+input,textarea,select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:transparent}
+textarea{resize:vertical;min-height:84px}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg input{display:none}
+.seg label{margin:0;flex:1;text-align:center;padding:8px 4px;cursor:pointer;text-transform:none;letter-spacing:0;font-size:13px;font-weight:500;color:var(--muted)}
+.seg input:checked+label{background:var(--accent-soft);color:var(--accent);font-weight:650}
+.check{display:flex;gap:8px;align-items:center;margin-top:14px;font-size:13px;color:var(--muted)}
+.check input{width:auto}
+button.primary{margin-top:18px;width:100%;padding:11px;border:0;border-radius:9px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:650;cursor:pointer}
+button.primary:disabled{opacity:.6;cursor:wait}
+details{margin-top:14px;color:var(--muted);font-size:13px}
+summary{cursor:pointer}
+.notice{margin:0 0 16px;padding:11px 14px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-size:13px}
+.notice.demo{background:var(--accent-soft);color:var(--accent)}
+.notice.err{background:var(--bad-bg);color:var(--bad)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{padding:14px 16px}
+.stat b{display:block;font-size:24px;letter-spacing:-.02em}
+.stat span{color:var(--muted);font-size:12px}
+.tabs{display:flex;gap:4px;padding:6px;border-bottom:1px solid var(--line);align-items:center}
+.tab{padding:7px 14px;border:0;background:none;color:var(--muted);font:inherit;font-weight:600;border-radius:7px;cursor:pointer}
+.tab.on{background:var(--accent-soft);color:var(--accent)}
+.tools{margin-left:auto;display:flex;gap:8px}
+.tools select{width:auto;padding:6px 8px;font-size:13px}
+.tools a{padding:6px 10px;border:1px solid var(--line);border-radius:7px;color:var(--ink);text-decoration:none;font-size:13px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.kw{font-weight:600;min-width:260px}
+td small{display:block;color:var(--muted);font-weight:400;margin-top:2px}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--info-bg);color:var(--muted)}
+.pill.good{background:var(--good-bg);color:var(--good)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.score{display:flex;align-items:center;gap:8px;min-width:120px;font-weight:650}
+.bar{flex:1;height:6px;background:var(--info-bg);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:9px}
+.conf{color:var(--muted);font-size:12px}
+.empty{padding:70px 20px;text-align:center;color:var(--muted)}
+.empty h2{color:var(--ink);font-size:18px;margin:0 0 6px}
+.progress{height:4px;background:var(--info-bg);border-radius:9px;overflow:hidden;margin-top:12px}
+.progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">K</div>
+  <h1>Intent Keyword Research</h1>
+  <span>SEO + GEO · estimated by an LLM, no external data</span>
+</header>
+<div class="layout">
+  <form class="card" id="f">
+    <label for="business">What does the business do?</label>
+    <textarea id="business" placeholder="e.g. Project management app for small construction firms"></textarea>
+    <label for="audience">Audience</label>
+    <input id="audience" placeholder="e.g. site managers, small contractors">
+    <label for="market">Market &amp; language</label>
+    <input id="market" value="US, English">
+    <label>Your site today</label>
+    <div class="seg">
+      <input type="radio" name="ss" id="s1" value="new" checked><label for="s1">New</label>
+      <input type="radio" name="ss" id="s2" value="growing"><label for="s2">Growing</label>
+      <input type="radio" name="ss" id="s3" value="established"><label for="s3">Established</label>
+    </div>
+    <label>Volume of output</label>
+    <div class="row">
+      <div><input id="intents" type="number" min="1" max="20" value="8" title="Intents"><small class="conf">intents</small></div>
+      <div><input id="seo" type="number" min="1" max="30" value="10" title="SEO per intent"><small class="conf">SEO / intent</small></div>
+      <div><input id="geo" type="number" min="1" max="20" value="6" title="GEO per intent"><small class="conf">GEO / intent</small></div>
+    </div>
+    <details>
+      <summary>OpenRouter settings</summary>
+      <label for="model">Model slug</label>
+      <input id="model" placeholder="default: server's OPENROUTER_MODEL">
+      <label for="key">API key (optional)</label>
+      <input id="key" type="password" placeholder="default: server's OPENROUTER_API_KEY" autocomplete="off">
+    </details>
+    <div class="check"><input type="checkbox" id="demo"><label for="demo" style="margin:0;text-transform:none;letter-spacing:0;font-weight:400;font-size:13px">Use sample data (no API call)</label></div>
+    <button class="primary" id="go">Research intents</button>
+    <div class="progress" id="pg" hidden><i></i></div>
+    <div class="conf" id="pgmsg" style="margin-top:6px"></div>
+  </form>
+
+  <main>
+    <div id="msg"></div>
+    <div id="out"><div class="card empty"><h2>Start from what people are trying to do</h2>
+      Describe your business and the tool maps searcher intents first, then expands each into SEO keywords and the questions people ask AI assistants.</div></div>
+  </main>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const VOL=["<10","10-100","100-1k","1k-10k","10k-100k","100k+"];
+const DIFFCLS={low:'good',medium:'warn',high:'bad',very_high:'bad'};
+const RISKCLS={low:'good',medium:'warn',high:'bad'};
+let R=null, jid=null, tab='seo', intentFilter='', sortKey='score', sortDir=-1, wasDemo=false;
+
+$('f').addEventListener('submit',async e=>{
+  e.preventDefault();
+  $('msg').innerHTML='';$('go').disabled=true;$('pg').hidden=false;
+  wasDemo=$('demo').checked;
+  const body={business:$('business').value,audience:$('audience').value,market:$('market').value,
+    site_strength:document.querySelector('[name=ss]:checked').value,intents:+$('intents').value,
+    seo:+$('seo').value,geo:+$('geo').value,model:$('model').value,api_key:$('key').value,demo:wasDemo};
+  const r=await fetch('/api/research',{method:'POST',body:JSON.stringify(body)});
+  const j=await r.json();
+  if(!r.ok){fail(j.error);return}
+  jid=j.id;poll();
+});
+function fail(m){$('msg').innerHTML='<div class="notice err">'+esc(m)+'</div>';$('go').disabled=false;$('pg').hidden=true;$('pgmsg').textContent=''}
+async function poll(){
+  const j=await (await fetch('/api/jobs/'+jid)).json();
+  if(j.status==='error')return fail(j.error);
+  const pct=j.status==='done'?100:Math.round(100*(j.done||0)/Math.max(j.total||1,1)*.9+5);
+  $('pg').firstElementChild.style.width=pct+'%';$('pgmsg').textContent=j.message||'';
+  if(j.status==='done'){R=j.result;$('go').disabled=false;$('pg').hidden=true;$('pgmsg').textContent='';render();return}
+  setTimeout(poll,800);
+}
+const pill=(t,c)=>`<span class="pill ${c||''}">${esc(String(t).replace('_',' '))}</span>`;
+const score=s=>`<div class="score">${s}<div class="bar"><i style="width:${Math.min(100,s*2.2)}%"></i></div></div>`;
+const intentName=id=>(R.intents.find(i=>i.id===id)||{name:id}).name;
+
+function render(){
+  const top=R.seo_keywords[0];
+  let h=(wasDemo?'<div class="notice demo"><b>Sample data.</b> These rows are canned examples to show the interface, not real estimates.</div>':
+   '<div class="notice"><b>Estimates, not measurements.</b> Volume, difficulty and demand are an LLM\'s guesses from general knowledge. Use them to rank ideas, then verify the top picks against a real SERP, Search Console, or by asking AI assistants directly.</div>');
+  h+=`<div class="stats">
+    <div class="card stat"><b>${R.intents.length}</b><span>searcher intents</span></div>
+    <div class="card stat"><b>${R.seo_keywords.length}</b><span>SEO keywords</span></div>
+    <div class="card stat"><b>${R.geo_prompts.length}</b><span>GEO prompts</span></div>
+    <div class="card stat"><b>${top?top.score:'–'}</b><span>top opportunity score</span></div></div>`;
+  h+=`<div class="card"><div class="tabs">
+    ${['seo:SEO keywords','geo:GEO prompts','intents:Intent map'].map(x=>{const[k,l]=x.split(':');return `<button class="tab ${tab===k?'on':''}" data-t="${k}">${l}</button>`}).join('')}
+    <div class="tools">${tab!=='intents'?`<select id="flt"><option value="">All intents</option>${R.intents.map(i=>`<option value="${esc(i.id)}" ${intentFilter===i.id?'selected':''}>${esc(i.name)}</option>`).join('')}</select>
+    <a href="/api/jobs/${jid}/csv?kind=${tab}">Export CSV</a>`:''}</div></div>
+    <div class="scroll">${table()}</div></div>`;
+  $('out').innerHTML=h;
+  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.t;sortKey='score';sortDir=-1;render()});
+  const f=$('flt');if(f)f.onchange=()=>{intentFilter=f.value;render()};
+  document.querySelectorAll('th[data-k]').forEach(t=>t.onclick=()=>{const k=t.dataset.k;sortDir=sortKey===k?-sortDir:-1;sortKey=k;render()});
+}
+function sorted(rows){
+  rows=rows.filter(r=>!intentFilter||r.intent_id===intentFilter);
+  const val=r=>sortKey==='volume_band'?VOL.indexOf(r.volume_band):r[sortKey];
+  return rows.slice().sort((a,b)=>{const x=val(a),y=val(b);return (x>y?1:x<y?-1:0)*sortDir});
+}
+const th=(k,l)=>`<th data-k="${k}">${l}${sortKey===k?(sortDir<0?' ↓':' ↑'):''}</th>`;
+function table(){
+  if(tab==='intents')return `<table><tr><th>Intent</th><th>Type</th><th>Stage</th><th>Fit</th><th>Problem being solved</th></tr>`+
+    R.intents.map(i=>`<tr><td class="kw">${esc(i.name)}<small>${esc(i.persona)}</small></td><td>${pill(i.intent_type)}</td><td>${pill(i.journey_stage)}</td>
+    <td>${pill(i.business_fit+'/5',i.business_fit>=4?'good':i.business_fit==3?'warn':'')}</td><td>${esc(i.searcher_problem)}</td></tr>`).join('')+'</table>';
+  if(tab==='seo')return `<table><tr>${th('keyword','Keyword')}${th('volume_band','Est. monthly searches')}${th('difficulty','Difficulty')}${th('ai_overview_risk','AI-answer risk')}${th('score','Opportunity')}<th>Format</th></tr>`+
+    sorted(R.seo_keywords).map(k=>`<tr><td class="kw">${esc(k.keyword)}<small>${esc(intentName(k.intent_id))} · ${esc(k.expected_serp)}</small></td>
+    <td>${pill(k.volume_band)} <span class="conf">${esc(k.volume_confidence)} conf.</span></td>
+    <td>${pill(k.difficulty,DIFFCLS[k.difficulty])}<small>${esc(k.difficulty_reason)}</small></td>
+    <td>${pill(k.ai_overview_risk,RISKCLS[k.ai_overview_risk])}</td><td>${score(k.score)}</td><td>${esc(k.content_format)}</td></tr>`).join('')+'</table>';
+  return `<table><tr>${th('prompt','Prompt asked to an AI assistant')}${th('demand','Est. demand')}${th('citation_difficulty','Citation difficulty')}${th('score','Opportunity')}<th>Likely cited sources</th><th>Format</th></tr>`+
+    sorted(R.geo_prompts).map(g=>`<tr><td class="kw">${esc(g.prompt)}<small>${esc(intentName(g.intent_id))}</small></td>
+    <td>${pill(g.demand)}</td><td>${pill(g.citation_difficulty,DIFFCLS[g.citation_difficulty])}</td><td>${score(g.score)}</td>
+    <td>${esc(g.likely_cited_sources)}</td><td>${esc(g.content_format)}</td></tr>`).join('')+'</table>';
+}
+</script>
+</body>
+</html>

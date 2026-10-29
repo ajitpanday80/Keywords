@@ -3,7 +3,7 @@ name = "kwintent"
 version = "0.1.0"
 description = "Intent-based keyword research for SEO and GEO, estimated entirely by Claude"
 requires-python = ">=3.10"
-dependencies = ["anthropic>=2.0", "pydantic>=2", "click>=8"]
+dependencies = ["pydantic>=2", "click>=8"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
@@ -17,3 +17,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["kwintent"]
+
+[tool.setuptools.package-data]
+kwintent = ["index.html"]

@@ -1,4 +1,4 @@
-"""Deterministic scoring on top of Claude's estimates.
+"""Deterministic scoring on top of the LLM's estimates.
 
 The inputs are guesses, so the output is a ranking aid, not a forecast.
 """

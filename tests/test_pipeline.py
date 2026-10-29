@@ -31,7 +31,7 @@ def test_pipeline_dedupes_and_sorts(tmp_path):
     scores = [k["score"] for k in res["seo_keywords"]]
     assert scores == sorted(scores, reverse=True)
     report.write(res, tmp_path)
-    assert "Claude's estimates" in (tmp_path / "report.md").read_text()
+    assert "AI model's estimates" in (tmp_path / "report.md").read_text()
 
 
 def test_scoring_monotonic():
@@ -40,3 +40,9 @@ def test_scoring_monotonic():
         scoring.seo_score("100-1k", difficulty="low", **base)
     assert scoring.seo_score("1k-10k", difficulty="low", **base) > \
         scoring.seo_score("1k-10k", difficulty="very_high", **base)
+
+
+def test_extract_json_handles_fences():
+    from kwintent.llm import _extract_json
+    assert _extract_json('Sure:\n```json\n{"a": 1}\n```') == '{"a": 1}'
+    assert _extract_json('noise {"a": 1} tail') == '{"a": 1}'
